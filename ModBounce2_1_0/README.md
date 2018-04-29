@@ -9,6 +9,3 @@ The physics of a ball bouncing within set boundaries is of an unpredictable natu
 
 Randomness, improvisation, creativity..(research and reference)
 Within music production, particularly live music production (or composition), improvisation is regarded a useful tool, not only for adding variation but also, breaking through creative blocks and broadening the
-
-Here's a link - [LINK IS HERE](https://www.google.co.uk)
-

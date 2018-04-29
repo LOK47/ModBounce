@@ -23,7 +23,7 @@ void display(float c) {
   
   
   fill(c); //<>//
-  stroke(c);
+  noStroke();
   ellipse(pos.x ,pos.y , r, r);
  
 }
