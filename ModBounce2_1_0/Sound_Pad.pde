@@ -5,7 +5,7 @@ class SoundPad {
   float y;
   float w;
   float h;
-  float c;
+  color col, col2;
   
   Body b;
 
@@ -14,14 +14,14 @@ class SoundPad {
     y = y_;
     w = w_;
     h = h_;
-    c = 0;
-    
+    col = 0;
+    col2 = (#6F8F7C);
 
  // Define the polygon
     PolygonShape sd = new PolygonShape();
     // Figure out the box2d coordinates
     float box2dW = box2d.scalarPixelsToWorld(w+4);
-    float box2dH = box2d.scalarPixelsToWorld(h+4);
+    float box2dH = box2d.scalarPixelsToWorld(h*0.9);
     
     sd.setAsBox(box2dW, box2dH);
 
@@ -32,8 +32,13 @@ class SoundPad {
     bd.position.set(box2d.coordPixelsToWorld(x,y));
     b = box2d.createBody(bd);
     
-    // Attach the shape to the body
-    b.createFixture(sd, 1);
+// Define fixture + Attach the shape to the body
+   FixtureDef fd = new FixtureDef();
+   fd.shape = sd;
+
+   
+   fd.restitution = 1.2;
+   b.createFixture(sd, 1);
     
     b.setUserData(this);
   }
@@ -41,14 +46,22 @@ class SoundPad {
  // Draw the boundary
   void display() {
     
-    fill(c);
-    stroke(255);
+    fill(col);
+    stroke(col2);
     rectMode(CORNER);
     rect(x,y,w,h,2);
   }
   
   void changeColor(){
-  c = #833434;
+  col = color(#FFC133);
+  //col = color(#F9E79F);
+  col2 = (0);
+  }
+  
+  void changeBack(){
+  col = color(0);
+  col2 = (#6F8F7C);
+  
   }
 
 }

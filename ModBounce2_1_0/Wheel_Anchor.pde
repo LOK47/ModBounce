@@ -42,9 +42,6 @@ WheelAnchor(Vec2 pos) {
   
 //Tell box2d to store this data in reference to this object
 
-
-
-
   body.setUserData(this);
  
   

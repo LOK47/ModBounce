@@ -1,6 +1,6 @@
 class Ball {
 
- Body ball;
+ Body b;
 
 float r;
 float c;
@@ -12,31 +12,21 @@ Vec2 pos;
 Ball() {
   
   makeBody();
-  ball.setUserData(this);
+  //b.setUserData(this);
   r = 12;
 }
 
 
 void display(float c) {
   
-  Vec2 pos = box2d.getBodyPixelCoord(ball);
+  Vec2 pos = box2d.getBodyPixelCoord(b);
   
-  
-  fill(c); //<>//
+  fill(c);
   noStroke();
   ellipse(pos.x ,pos.y , r, r);
  
 }
 
-//void update(){
-//  //pos.add(velocity);
-  
-//  if (pos.x > width/8){
-  
-//  velocity = new Vec2(1,0); //<>//
-// }
-
-//}
 
 void makeBody(){
 //Starting position in box2d vector
@@ -45,14 +35,13 @@ void makeBody(){
 //Define body 
   BodyDef bd = new BodyDef();
   bd.type = BodyType.DYNAMIC;
- // body.setFixedRotation(false);
   bd.position.set(pos);
   bd.bullet = true;
   bd.linearDamping = 0.5;
   
   
 //Create body
-  ball = box2d.world.createBody(bd); 
+  b = box2d.world.createBody(bd); 
 
 //Create shape
   CircleShape cs = new CircleShape();
@@ -70,18 +59,18 @@ void makeBody(){
   
 //Attach fixture to body
   
-  ball.createFixture(fd);
+  b.createFixture(fd);
   
 //Tell box2d to store this data in reference to this object
-  ball.setUserData(this);
+  b.setUserData(this);
  
 }
 
 void applyLinearImpulse(Vec2 impulse){
   
-  Vec2 pos = ball.getWorldCenter(); 
+  Vec2 pos = b.getWorldCenter(); 
   
-  ball.applyLinearImpulse(impulse, pos, true);
+  b.applyLinearImpulse(impulse, pos, true);
   
 }
 }

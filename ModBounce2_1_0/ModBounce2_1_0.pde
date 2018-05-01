@@ -4,24 +4,20 @@ import netP5.*;
 import oscP5.*;
 
  //<>// //<>//
-
-
+ 
 import shiffman.box2d.*;
 import org.jbox2d.common.*;
-import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.joints.*;
-import org.jbox2d.dynamics.contacts.*;
 import org.jbox2d.collision.shapes.*;
 import org.jbox2d.collision.shapes.Shape;
-
-
-
-
-
-Box2DProcessing box2d;
+import org.jbox2d.common.*;
+import org.jbox2d.dynamics.*;
+import org.jbox2d.dynamics.contacts.*;
 
 
 /***** VARIABLES *****/
+
+Box2DProcessing box2d;
 
 OscP5 osc;
 NetAddress supercollider;
@@ -42,6 +38,7 @@ Ball pb, pb2;
 //Array list for all boundaries
 ArrayList<Boundary> boundaries;
 
+//Initialize sound pads
 SoundPad pad1, pad2, pad3, pad4, pad5, pad6, pad7, pad8, pad9, pad10;
 
 
@@ -59,22 +56,27 @@ void setup() {
   
   //Initialize box2d world with default settings
   box2d = new Box2DProcessing(this);
-  box2d.createWorld(new Vec2(width, height));
+  box2d.createWorld();
   box2d.setGravity(0, 0); //set custom gravity
+  
   //Turn on collision listening
   box2d.listenForCollisions();
   
+  
   osc = new OscP5(this, 12000);
-  supercollider = new NetAddress("127.0.0.1", 57121);
+  supercollider = new NetAddress("127.0.0.1", 57120);
  
   smooth();
   frameRate(400);
    bg = loadImage("StartGame.png");
    bg2 = loadImage("GameScreen.png"); 
    
-  
+  //Player balls
    pb = new Ball();
-   pb2 = new Ball();
+   //pb2 = new Ball();
+   
+   
+   //Soundpads
    pad1 = new SoundPad(width/8, 80, 10, 130);
    pad2 = new SoundPad(width/8, 230, 10, 130);
    pad3 = new SoundPad(width/8, 380, 10, 130);
@@ -89,7 +91,7 @@ void setup() {
    pad10 = new SoundPad(width/5, height*0.044, 380, 10);
 
 
-   
+   //Create empty array for Boundaries
    boundaries = new ArrayList<Boundary>();
    
    //Floor boundary 
@@ -169,7 +171,7 @@ void gameScreen() {
   
   
   pb.display(255);
-  pb2.display(50);
+  //pb2.display(50);
   
   
   
@@ -218,10 +220,7 @@ void keyPressed() {
 //Main ball controls
   if (left == true){
     Vec2 impulse = new Vec2(-5,0);
-    pb.applyLinearImpulse(impulse);
-     OscMessage msg = new OscMessage("/starhit");
-      osc.send(msg, supercollider);
-    
+    pb.applyLinearImpulse(impulse);   
   }
   
     if (right == true){
@@ -239,27 +238,27 @@ void keyPressed() {
   
 //Shadow Ball (1) controls
   
-  if (left == true){
-     Vec2 impulse = new Vec2(5,0);
-    pb2.applyLinearImpulse(impulse);
-  }
+  //if (left == true){
+  //   Vec2 impulse = new Vec2(5,0);
+  //  pb2.applyLinearImpulse(impulse);
+  //}
   
 
-    if (right == true){
-    Vec2 impulse = new Vec2(-5,0);
-    pb2.applyLinearImpulse(impulse);
-  }
+  //  if (right == true){
+  //  Vec2 impulse = new Vec2(-5,0);
+  //  pb2.applyLinearImpulse(impulse);
+  //}
   
-     if (up == true){
-    Vec2 impulse = new Vec2(0,-5);
-    pb2.applyLinearImpulse(impulse);
-  }
+  //   if (up == true){
+  //  Vec2 impulse = new Vec2(0,-5);
+  //  pb2.applyLinearImpulse(impulse);
+  //}
   
    
-  if (down == true){
-    Vec2 impulse = new Vec2(0,5);
-    pb2.applyLinearImpulse(impulse);
-  }
+  //if (down == true){
+  //  Vec2 impulse = new Vec2(0,5);
+  //  pb2.applyLinearImpulse(impulse);
+  //}
 }
   
   
@@ -296,24 +295,3 @@ public void mousePressed() {
 void startGame() {
   gameScreen = 1;
 }
-
-
-//void beginContact(Contact cp){
-  
-//  Fixture f1 = cp.getFixtureA();
-//  Fixture f2 = cp.getFixtureB();
-  
-//  Body b1 = f1.getBody();
-//  Body b2 = f2.getBody();
-  
-//  Ball e1 = (Ball) b1.getUserData();
-//  SoundPad e2 = (SoundPad) b2.getUserData(); 
-  
-//  pad1.changeColor();
-  
-//  Object o1 = b1.getUserData();
-//  if (o1.getClass() == SoundPad.class) {
-//     SoundPad e = (SoundPad) o1;
-//      pad1.changeColor();}
-
-//}

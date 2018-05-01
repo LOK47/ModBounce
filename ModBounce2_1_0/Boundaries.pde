@@ -32,7 +32,7 @@ class Boundary {
     // Attach the shape to the body
     b.createFixture(sd, 1);
     
-    //b.setUserData(this);
+    b.setUserData(this);
   }
 
  // Draw the boundary
