@@ -9,8 +9,8 @@ class GreenWheel{
   
 GreenWheel(Vec2 pos) {
   
-  r = 30;
-  w = 100;
+  r = 15;
+  w = 75;
   h = 10;
   
   //Define body 
@@ -18,6 +18,7 @@ GreenWheel(Vec2 pos) {
   bd.type = BodyType.DYNAMIC;
   bd.position.set(box2d.coordPixelsToWorld(pos.x,pos.y));
   bd.angularDamping = 0.2; 
+  bd.allowSleep = false;
   //Create body
   body = box2d.world.createBody(bd); 
   
@@ -54,7 +55,7 @@ GreenWheel(Vec2 pos) {
   
 //Tell box2d to store this data in reference to this object
   body.setUserData(this);
- 
+  
   
 
 }
@@ -81,11 +82,12 @@ void display(){
   rect(0,0,h,w,3);
   //Red marker lines 
   stroke(#902222);
-  line(-35,-4,-35,4);
-  line(-38,-4,-38,4);
+  line(-27,-4,-27,4);
+  line(-30,-4,-30,4);
   endShape();
   popMatrix();
-  
 
 }
+
+  
 }

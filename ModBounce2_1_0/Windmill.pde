@@ -14,20 +14,13 @@ class Windmill {
 
     // Define joint as between two bodies
     RevoluteJointDef rjd = new RevoluteJointDef();
-    
-
-    //Vec2 offset = box2d.vectorPixelsToWorld(new Vec2(0, 60));
+   
 
     rjd.initialize(wheel.body, anchor.body, anchor.body.getWorldCenter());
     rjd.enableLimit = true;
     rjd.lowerAngle = box2d.scalarPixelsToWorld(0.0);
     rjd.upperAngle = box2d.scalarPixelsToWorld(47.0);
     
-
-
-    // There are many other properties you can set for a Revolute joint
-    // For example, you can limit its angle between a minimum and a maximum
-    // See box2d manual for more
 
       // Create the joint
     joint = (RevoluteJoint) box2d.world.createJoint(rjd);
@@ -49,4 +42,14 @@ class Windmill {
   endShape();
   
   }
+ 
+public float getAngle(){
+
+ float a = wheel.body.getAngle(); 
+ map(a, 0.0, 47.0, 0, 1  );
+ 
+return a;
+}
+  
+  
 }

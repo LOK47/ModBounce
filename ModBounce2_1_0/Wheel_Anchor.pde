@@ -9,8 +9,8 @@ class WheelAnchor{
   
 WheelAnchor(Vec2 pos) {
   
-  r = 30;
-  w = 100;
+  r = 25;
+  w = 50;
   h = 10;
   
   //Define body 

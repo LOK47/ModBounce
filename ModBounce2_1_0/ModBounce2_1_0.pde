@@ -1,9 +1,9 @@
- //<>//
+ //<>// //<>//
 
 import netP5.*;
 import oscP5.*;
 
- //<>// //<>//
+ //<>//
  
 import shiffman.box2d.*;
 import org.jbox2d.common.*;
@@ -13,7 +13,7 @@ import org.jbox2d.collision.shapes.Shape;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
-
+ 
 
 /***** VARIABLES *****/
 
@@ -43,11 +43,13 @@ SoundPad pad1, pad2, pad3, pad4, pad5, pad6, pad7, pad8, pad9, pad10;
 
 
 //Initialize parameter wheels
-ArrayList<Windmill> windmill;
+Windmill wm1, wm2, wm3, wm4;
+
+//ArrayList<Windmill> windmill;
 ArrayList<Propeller> propeller;
 
 //Key Press Logic 
-boolean left, right, up, down; 
+boolean left, right, up, down, space; 
 
 /***** SETUP *****/
 
@@ -77,18 +79,27 @@ void setup() {
    
    
    //Soundpads
-   pad1 = new SoundPad(width/8, 80, 10, 130);
-   pad2 = new SoundPad(width/8, 230, 10, 130);
-   pad3 = new SoundPad(width/8, 380, 10, 130);
-   pad4 = new SoundPad(width/8, 530, 10, 130);
    
-   pad5 = new SoundPad(width*0.845, 80, 10, 130);
-   pad6 = new SoundPad(width*0.845, 230, 10, 130);
-   pad7 = new SoundPad(width*0.845, 380, 10, 130);
-   pad8 = new SoundPad(width*0.845, 530, 10, 130);
+   pad1 = new SoundPad(width/5, height*0.044, 380, 10);
    
-   pad9 = new SoundPad(width/5, height*0.945, 380, 10);
-   pad10 = new SoundPad(width/5, height*0.044, 380, 10);
+   pad2 = new SoundPad(width/8, height/4, 10, 380);
+   
+   pad3 = new SoundPad(width/5, height*0.945, 380, 10);
+   
+   pad4 = new SoundPad(width*0.845, height/4, 10, 380);
+    
+   //pad1 = new SoundPad(width/8, 80, 10, 130);
+ 
+   //pad3 = new SoundPad(width/8, 380, 10, 130);
+   //pad4 = new SoundPad(width/8, 530, 10, 130);
+   
+   //pad5 = new SoundPad(width*0.845, 80, 10, 130);
+   //pad6 = new SoundPad(width*0.845, 230, 10, 130);
+   //pad7 = new SoundPad(width*0.845, 380, 10, 130);
+   //pad8 = new SoundPad(width*0.845, 530, 10, 130);
+   
+
+  
 
 
    //Create empty array for Boundaries
@@ -103,21 +114,20 @@ void setup() {
    //Right boundary
    boundaries.add(new Boundary(width*0.86, 40, 2, height*0.9));
 
-   windmill = new ArrayList<Windmill>();
-   
-   windmill.add(new Windmill(new Vec2(175,150)));
-   windmill.add(new Windmill(new Vec2(450,300)));
-   windmill.add(new Windmill(new Vec2(175,450)));
-   windmill.add(new Windmill(new Vec2(450,600)));
-   
+   //Pad Parameter Windmills
+   wm1 = new Windmill(new Vec2(width/2,150));
+   wm2 = new Windmill(new Vec2(450,height/2));
+   wm3 = new Windmill(new Vec2(width/2,600));
+   wm4 = new Windmill(new Vec2(175,height/2));
+  
+  
+   //Obstacle propellers 
    propeller = new ArrayList<Propeller>();
    
-   propeller.add(new Propeller(new Vec2(175,300)));
+   propeller.add(new Propeller(new Vec2(175,150)));
    propeller.add(new Propeller(new Vec2(450,150)));
    propeller.add(new Propeller(new Vec2(175,600)));
-   propeller.add(new Propeller(new Vec2(450,450)));
-   
-
+   propeller.add(new Propeller(new Vec2(450,600)));
 
 }
 
@@ -154,16 +164,18 @@ void gameScreen() {
   pad2.display();
   pad3.display();
   pad4.display();
-  pad5.display();
-  pad6.display();
-  pad7.display();
-  pad8.display();
-  pad9.display();
-  pad10.display();
+  //pad5.display();
+  //pad6.display();
+  //pad7.display();
+  //pad8.display();
+  //pad9.display();
+  //pad10.display();
   
-  for (Windmill windmill : windmill) {
-    windmill.display();
-  }
+  wm1.display();
+  wm2.display();
+  wm3.display();
+  wm4.display();
+  
    
    for (Propeller propeller : propeller) {
     propeller.display();
@@ -172,23 +184,10 @@ void gameScreen() {
   
   pb.display(255);
   //pb2.display(50);
-  
-  
-  
- 
-  
 
-
-  
- //// Display all the boundaries
- // for (Boundary wall: boundaries) {
- //   wall.display();
- // }
  
   fill(255);
   text("framerate: " + (int)frameRate,12,16);
-
-  
 
 }
 
@@ -199,6 +198,11 @@ void keyPressed() {
     
   
   switch (keyCode) {
+    
+    case 32:
+    space = true;
+    break;
+    
     case 37:
     left = true;
      break;
@@ -259,12 +263,25 @@ void keyPressed() {
   //  Vec2 impulse = new Vec2(0,5);
   //  pb2.applyLinearImpulse(impulse);
   //}
+  
+  //Stop all sound
+  
+  if (space == true) {
+     OscMessage msgX = new OscMessage("/eventX");
+     osc.send(msgX, supercollider);
+  
+  }  
 }
   
   
 void keyReleased() {
   
   switch (keyCode){
+    
+    case 32:
+    space = false;
+    break;
+    
     case 37:
     left = false;
     break;
