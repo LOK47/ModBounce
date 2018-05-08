@@ -9,7 +9,7 @@ class WheelAnchor{
   
 WheelAnchor(Vec2 pos) {
   
-  r = 25;
+  r = 20;
   w = 50;
   h = 10;
   
@@ -48,7 +48,7 @@ WheelAnchor(Vec2 pos) {
 
 }
 
-void display(){
+void display(color col){
  
  Vec2 pos = new Vec2(box2d.getBodyPixelCoord(body));
  float a = body.getAngle();
@@ -58,7 +58,8 @@ void display(){
   translate(pos.x, pos.y);
   rotate(-a);
   noFill();
-  stroke(#427b4e);
+  strokeWeight(1.2);
+  stroke(col, 150);
   
   //Center CircleShape
   ellipseMode(CENTER);
@@ -66,4 +67,6 @@ void display(){
   popMatrix();
 
 }
+
+
 }

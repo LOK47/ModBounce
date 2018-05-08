@@ -6,6 +6,7 @@ class SoundPad {
   float w;
   float h;
   color col, col2;
+  boolean pad_isON = false;
   
   Body b;
 
@@ -15,7 +16,7 @@ class SoundPad {
     w = w_;
     h = h_;
     col = 0;
-    col2 = (#6F8F7C);
+    col2 = (255);
 
  // Define the polygon
     PolygonShape sd = new PolygonShape();
@@ -37,7 +38,7 @@ class SoundPad {
    fd.shape = sd;
 
    
-   fd.restitution = 1.2;
+   fd.restitution = 2;
    b.createFixture(sd, 1);
     
     b.setUserData(this);
@@ -46,22 +47,33 @@ class SoundPad {
  // Draw the boundary
   void display() {
     
-    fill(col);
-    stroke(col2);
+    if (pad_isON == true) {col = color(#ff8f00);} 
+    
+    else {col = color(0);}
+    
+    fill(col, 125);
+    stroke(col2, 125);
     rectMode(CORNER);
     rect(x,y,w,h,2);
-  }
-  
-  void changeColor(){
-  col = color(#FFC133);
-  //col = color(#F9E79F);
-  col2 = (0);
-  }
-  
-  void changeBack(){
-  col = color(0);
-  col2 = (#6F8F7C);
   
   }
+
+ void togglePad() {
+   
+     
+   pad_isON = !pad_isON; //toggle pad yellow if pad_isON = true, black if false
+
+}
+
+public float gateToggle(){
+  
+  float gate;
+  
+  if (pad_isON) {gate = 1;}
+  else {gate = 0;}
+  
+  return gate;
+
+}
 
 }

@@ -1,4 +1,4 @@
-class PropellerAnchor{
+class propellerAnchor{
   
  Body body;
   float r;
@@ -6,7 +6,7 @@ class PropellerAnchor{
   float x, y;
  
   
-PropellerAnchor(Vec2 pos) {
+propellerAnchor(Vec2 pos) {
   
   r = 15;
   

@@ -1,4 +1,5 @@
  //<>// //<>//
+ //<>//
 
 import netP5.*;
 import oscP5.*;
@@ -15,7 +16,7 @@ import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
  
 
-/***** VARIABLES *****/
+ //<>// GLOBAL VARIABLES  //<>//
 
 Box2DProcessing box2d;
 
@@ -33,7 +34,10 @@ PImage bg2;
 int gameScreen = 0;
 
 //Initialize player ball 
-Ball pb, pb2;
+Ball pb;
+
+//Initialize trigger balls
+triggerBall tb1, tb2, tb3, tb4;
 
 //Array list for all boundaries
 ArrayList<Boundary> boundaries;
@@ -41,9 +45,10 @@ ArrayList<Boundary> boundaries;
 //Initialize sound pads
 SoundPad pad1, pad2, pad3, pad4, pad5, pad6, pad7, pad8, pad9, pad10;
 
-
 //Initialize parameter wheels
-Windmill wm1, wm2, wm3, wm4;
+greenMod gMod1, gMod2, gMod3, gMod4;
+yellowMod yMod1, yMod2, yMod3, yMod4;
+redMod rMod1, rMod2, rMod3, rMod4;
 
 //ArrayList<Windmill> windmill;
 ArrayList<Propeller> propeller;
@@ -51,7 +56,7 @@ ArrayList<Propeller> propeller;
 //Key Press Logic 
 boolean left, right, up, down, space; 
 
-/***** SETUP *****/
+ //<>// SETUP //<>//
 
 void setup() {
   size(640,740);
@@ -60,25 +65,23 @@ void setup() {
   box2d = new Box2DProcessing(this);
   box2d.createWorld();
   box2d.setGravity(0, 0); //set custom gravity
+  box2d.listenForCollisions(); //Turn on collision listening
   
-  //Turn on collision listening
-  box2d.listenForCollisions();
-  
-  
+  //Initialize OSC ports
   osc = new OscP5(this, 12000);
   supercollider = new NetAddress("127.0.0.1", 57120);
  
   smooth();
   frameRate(400);
-   bg = loadImage("StartGame.png");
-   bg2 = loadImage("GameScreen.png"); 
+  bg = loadImage("StartGame.png");
+  bg2 = loadImage("GameScreen.png"); 
    
   //Player balls
    pb = new Ball();
-   //pb2 = new Ball();
+ //pb2 = new Ball();
    
    
-   //Soundpads
+   /***** SOUNDPADS *****/
    
    pad1 = new SoundPad(width/5, height*0.044, 380, 10);
    
@@ -98,7 +101,9 @@ void setup() {
    //pad7 = new SoundPad(width*0.845, 380, 10, 130);
    //pad8 = new SoundPad(width*0.845, 530, 10, 130);
    
-
+   /***** BALLS *****/
+   
+   tb1 = new triggerBall();
   
 
 
@@ -114,21 +119,40 @@ void setup() {
    //Right boundary
    boundaries.add(new Boundary(width*0.86, 40, 2, height*0.9));
 
-   //Pad Parameter Windmills
-   wm1 = new Windmill(new Vec2(width/2,150));
-   wm2 = new Windmill(new Vec2(450,height/2));
-   wm3 = new Windmill(new Vec2(width/2,600));
-   wm4 = new Windmill(new Vec2(175,height/2));
+   //Parameter Modwheels
+   yMod1 = new yellowMod(new Vec2(width/3,125));
+   rMod1 = new redMod(new Vec2(width/1.99,125));
+   gMod1 = new greenMod(new Vec2(426,125));
+  
+   yMod2 = new yellowMod(new Vec2(475, height/3));
+   rMod2 = new redMod(new Vec2(475, height/2));
+   gMod2 = new greenMod(new Vec2(475, 493));
+   
+   yMod3 = new yellowMod(new Vec2(426, 625));
+   rMod3 = new redMod(new Vec2(width/1.99, 625));
+   gMod3 = new greenMod(new Vec2(width/3, 625));
+   
+   yMod4 = new yellowMod(new Vec2(width/4, 493));
+   rMod4 = new redMod(new Vec2(width/4, height/2));
+   gMod4 = new greenMod(new Vec2(width/4, height/3));
+        
+   //wm2 = new Windmill(new Vec2(width/2,150));
+   //wm3 = new Windmill(new Vec2(width/2,150));
+   
+   //wm2 = new Windmill(new Vec2(450,height/2));
+   //wm3 = new Windmill(new Vec2(width/2,600));
+   //wm4 = new Windmill(new Vec2(175,height/2));
   
   
    //Obstacle propellers 
-   propeller = new ArrayList<Propeller>();
+   //propeller = new ArrayList<Propeller>();
    
-   propeller.add(new Propeller(new Vec2(175,150)));
-   propeller.add(new Propeller(new Vec2(450,150)));
-   propeller.add(new Propeller(new Vec2(175,600)));
-   propeller.add(new Propeller(new Vec2(450,600)));
-
+   //propeller.add(new Propeller(new Vec2(175,150)));
+   //propeller.add(new Propeller(new Vec2(450,150)));
+   //propeller.add(new Propeller(new Vec2(175,600)));
+   //propeller.add(new Propeller(new Vec2(450,600)));
+   
+    
 }
 
 /***** DRAW *****/
@@ -164,22 +188,35 @@ void gameScreen() {
   pad2.display();
   pad3.display();
   pad4.display();
-  //pad5.display();
-  //pad6.display();
-  //pad7.display();
-  //pad8.display();
-  //pad9.display();
-  //pad10.display();
   
-  wm1.display();
-  wm2.display();
-  wm3.display();
-  wm4.display();
+  // Modwheel display
+  
+  gMod1.display();
+  yMod1.display();
+  rMod1.display();
+  
+  yMod2.display();
+  rMod2.display();
+  gMod2.display();
+  
+  yMod3.display();
+  rMod3.display();
+  gMod3.display();
+  
+  gMod4.display();
+  yMod4.display();
+  rMod4.display();
+  
+ 
+  mapParameters();
+  
+  tb1.displayPink();
+
   
    
-   for (Propeller propeller : propeller) {
-    propeller.display();
-  }
+  // for (Propeller propeller : propeller) {
+  //  propeller.display();
+  //}
   
   
   pb.display(255);
@@ -240,6 +277,7 @@ void keyPressed() {
     pb.applyLinearImpulse(impulse);
   }
   
+ 
 //Shadow Ball (1) controls
   
   //if (left == true){
@@ -266,11 +304,6 @@ void keyPressed() {
   
   //Stop all sound
   
-  if (space == true) {
-     OscMessage msgX = new OscMessage("/eventX");
-     osc.send(msgX, supercollider);
-  
-  }  
 }
   
   

@@ -1,4 +1,4 @@
-class Ball {
+class triggerBall {
 
  Body b;
 
@@ -9,19 +9,19 @@ Vec2 velocity;
 Vec2 pos;
 
 //Constructor
-Ball() {
+triggerBall() {
   
   makeBody();
-  //b.setUserData(this);
   r = 12;
 }
 
 
-void display(float c) {
+void displayPink() {
   
   Vec2 pos = box2d.getBodyPixelCoord(b);
   
-  fill(c);
+  
+  fill(#f44271);
   noStroke();
   ellipse(pos.x ,pos.y , r, r);
  
@@ -37,7 +37,9 @@ void makeBody(){
   bd.type = BodyType.DYNAMIC;
   bd.position.set(pos);
   bd.bullet = true;
-  bd.linearDamping = 0.2;
+  bd.linearDamping = 0.5;
+  
+  //b.setAngularVelocity(random(-10, 10));
   
   
 //Create body
@@ -53,7 +55,7 @@ void makeBody(){
 
 // Physics parameters 
 
-  fd.density = 0.5;
+  fd.density = 1;
   fd.friction = 0.2;
   fd.restitution = 1.2;
   
@@ -61,18 +63,19 @@ void makeBody(){
   
   b.createFixture(fd);
   
+ 
+  
 //Tell box2d to store this data in reference to this object
   b.setUserData(this);
  
 }
 
-void applyLinearImpulse(Vec2 impulse){
+//void applyForce(Vec2 force, Vec2 point){
   
-  Vec2 pos = b.getWorldCenter(); 
+// Vec2 pos = b.getWorldCenter(); 
   
-  b.applyLinearImpulse(impulse, pos, true);
-  
-}
-
-
+// point = pos;
+ 
+// }
+ 
 }

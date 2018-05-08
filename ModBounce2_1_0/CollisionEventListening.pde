@@ -13,58 +13,40 @@ void beginContact(Contact cp) {
 
   if (o1 == pad1 && o2.getClass() == Ball.class) {
     SoundPad pad1 = (SoundPad) o1;
-    pad1.changeColor();
-    
-    OscMessage msg = new OscMessage("/event1");
-        
-    float a = wm1.getAngle();
-    msg.add(a);
-    osc.send(msg, supercollider);
+    pad1.togglePad();
+  
   } 
   
-  else {
-    pad1.changeBack();
-  }
+
    
    if (o1 == pad2 && o2.getClass() == Ball.class) {
     SoundPad pad2 = (SoundPad) o1;
-    pad2.changeColor();
+    pad2.togglePad();
     
-    OscMessage msg2 = new OscMessage("/event2");
-    osc.send(msg2, supercollider);
   } 
   
-  else {
-    pad2.changeBack();
-  }
+ 
   
      if (o1 == pad3 && o2.getClass() == Ball.class) {
     SoundPad pad3 = (SoundPad) o1;
-    pad3.changeColor();
+    pad3.togglePad();
     
-    OscMessage msg3 = new OscMessage("/event3");
-    osc.send(msg3, supercollider);
+    //OscMessage msg3 = new OscMessage("/event3");
+    //osc.send(msg3, supercollider);
   } 
   
-  else {
-    pad3.changeBack();
-  }
+
   
    if (o1 == pad4 && o2.getClass() == Ball.class) {
     SoundPad pad4 = (SoundPad) o1;
-    pad4.changeColor();
+    pad4.togglePad();
     
-    OscMessage msg4 = new OscMessage("/event4");
-    osc.send(msg4, supercollider);
+    //OscMessage msg4 = new OscMessage("/event4");
+    //osc.send(msg4, supercollider);
   } 
   
-  else {
-    pad4.changeBack();
-  }
- 
-     
 
-   
+ 
 
      
      
@@ -76,4 +58,8 @@ void endContact(Contact cp) {
 
   
   }
+  
+  
+  
+ 
   

@@ -1,4 +1,4 @@
-class GreenWheel{
+class propellerWheel{
   
  Body body;
   float r;
@@ -7,18 +7,16 @@ class GreenWheel{
   float w, h;
 
   
-GreenWheel(Vec2 pos) {
+propellerWheel(Vec2 pos) {
   
-  r = 15;
-  w = 75;
-  h = 10;
+  w = 50;
+  h = 5;
   
   //Define body 
   BodyDef bd = new BodyDef();
   bd.type = BodyType.DYNAMIC;
   bd.position.set(box2d.coordPixelsToWorld(pos.x,pos.y));
-  bd.angularDamping = 0.2; 
-  bd.allowSleep = false;
+  bd.angularVelocity = (random(-6, 6)); 
   //Create body
   body = box2d.world.createBody(bd); 
   
@@ -43,19 +41,19 @@ GreenWheel(Vec2 pos) {
 
 // Physics parameters 
 
-  fd.density = 1;
+  fd.density = 2;
   fd.friction = 0.2;
-  fd.restitution = 0;
+  fd.restitution = 0.2;
   
 //Attach fixture to body
   
   //body.createFixture(cs, 2.0);
-  body.createFixture(ps, 0.5);
-  body.createFixture(ps2, 0.5);
+  body.createFixture(ps, 2.0);
+  body.createFixture(ps2, 2.0);
   
 //Tell box2d to store this data in reference to this object
   body.setUserData(this);
-  
+ 
   
 
 }
@@ -72,22 +70,17 @@ void display(){
   rotate(-a);
   
   beginShape();
-  fill(#427b4e);
+  fill(#434242);
   stroke(0);
   //Rectangle 1 (PolygonShape 1)
   rectMode(CENTER);
-  rect(0,0,w,h,3);
+  rect(0,0,w,h,1.5);
   //Rectangle 2 (PolygonShape 2)
   rectMode(CENTER);
-  rect(0,0,h,w,3);
-  //Red marker lines 
-  stroke(#902222);
-  line(-27,-4,-27,4);
-  line(-30,-4,-30,4);
+  rect(0,0,h,w,1.5);
   endShape();
   popMatrix();
+  
 
 }
-
-  
 }

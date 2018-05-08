@@ -1,4 +1,4 @@
-class GreyWheel{
+class modWheel{
   
  Body body;
   float r;
@@ -6,17 +6,19 @@ class GreyWheel{
   float x, y;
   float w, h;
 
+  modWheel(Vec2 pos) {
   
-GreyWheel(Vec2 pos) {
+  r = 15;
+  w = 60;
+  h = 10;
   
-  w = 50;
-  h = 5;
   
   //Define body 
   BodyDef bd = new BodyDef();
   bd.type = BodyType.DYNAMIC;
   bd.position.set(box2d.coordPixelsToWorld(pos.x,pos.y));
-  bd.angularVelocity = (random(-6, 6)); 
+  bd.angularDamping = 0.5; 
+  bd.allowSleep = true;
   //Create body
   body = box2d.world.createBody(bd); 
   
@@ -41,28 +43,29 @@ GreyWheel(Vec2 pos) {
 
 // Physics parameters 
 
-  fd.density = 2;
+  fd.density = 1;
   fd.friction = 0.2;
-  fd.restitution = 0.2;
+  fd.restitution = 0;
   
 //Attach fixture to body
   
   //body.createFixture(cs, 2.0);
-  body.createFixture(ps, 2.0);
-  body.createFixture(ps2, 2.0);
+  body.createFixture(ps, 0.5);
+  body.createFixture(ps2, 0.5);
   
 //Tell box2d to store this data in reference to this object
   body.setUserData(this);
- 
+  
   
 
 }
 
-void display(){
+void display(color col){
  
  Vec2 pos = new Vec2(box2d.getBodyPixelCoord(body));
   
  float a = body.getAngle();
+ 
   
   //shapeMode(CENTER);
   pushMatrix();
@@ -70,17 +73,22 @@ void display(){
   rotate(-a);
   
   beginShape();
-  fill(#434242);
+  fill(col, 125);
   stroke(0);
   //Rectangle 1 (PolygonShape 1)
   rectMode(CENTER);
-  rect(0,0,w,h,1.5);
+  rect(0,0,w,h,3);
   //Rectangle 2 (PolygonShape 2)
   rectMode(CENTER);
-  rect(0,0,h,w,1.5);
+  rect(0,0,h,w,3);
+  //Red marker lines 
+  stroke(#902222);
+  line(-24,-4,-24,4);
+  line(-27,-4,-27,4);
   endShape();
   popMatrix();
-  
 
 }
+
+  
 }
