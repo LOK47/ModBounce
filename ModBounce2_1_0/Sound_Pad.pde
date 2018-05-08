@@ -21,8 +21,8 @@ class SoundPad {
  // Define the polygon
     PolygonShape sd = new PolygonShape();
     // Figure out the box2d coordinates
-    float box2dW = box2d.scalarPixelsToWorld(w+4);
-    float box2dH = box2d.scalarPixelsToWorld(h*0.9);
+    float box2dW = box2d.scalarPixelsToWorld(w/2);
+    float box2dH = box2d.scalarPixelsToWorld(h/2);
     
     sd.setAsBox(box2dW, box2dH);
 
@@ -53,7 +53,7 @@ class SoundPad {
     
     fill(col, 125);
     stroke(col2, 125);
-    rectMode(CORNER);
+    rectMode(CENTER);
     rect(x,y,w,h,2);
   
   }

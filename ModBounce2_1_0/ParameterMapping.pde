@@ -25,5 +25,13 @@ void mapParameters(){
   OscMessage msg6 = new OscMessage("/pad2CLOSEGATE");
   osc.send(msg6, supercollider);}
   
+  OscMessage msg7 = new OscMessage("/pad2TRANSPOSE");
+  msg7.add(map(gMod2.getAngle(),0, 6, -12, 12));
+  osc.send(msg7, supercollider);
+  
+  OscMessage msg8 = new OscMessage("/pad2STRETCH");
+  msg8.add(map(yMod2.getAngle(),0, 60, 2, 10));
+  osc.send(msg8, supercollider);
+  
 
 }

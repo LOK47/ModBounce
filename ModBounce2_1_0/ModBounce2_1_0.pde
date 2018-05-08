@@ -50,7 +50,10 @@ greenMod gMod1, gMod2, gMod3, gMod4;
 yellowMod yMod1, yMod2, yMod3, yMod4;
 redMod rMod1, rMod2, rMod3, rMod4;
 
-//ArrayList<Windmill> windmill;
+
+
+
+//ArrayList for Propellers 
 ArrayList<Propeller> propeller;
 
 //Key Press Logic 
@@ -73,39 +76,28 @@ void setup() {
  
   smooth();
   frameRate(400);
-  bg = loadImage("StartGame.png");
-  bg2 = loadImage("GameScreen.png"); 
+  bg = loadImage("modbounce_start.png");
+  bg2 = loadImage("modbounce_gamescreen.png"); 
    
   //Player balls
    pb = new Ball();
  //pb2 = new Ball();
    
-   
-   /***** SOUNDPADS *****/
-   
-   pad1 = new SoundPad(width/5, height*0.044, 380, 10);
-   
-   pad2 = new SoundPad(width/8, height/4, 10, 380);
-   
-   pad3 = new SoundPad(width/5, height*0.945, 380, 10);
-   
-   pad4 = new SoundPad(width*0.845, height/4, 10, 380);
-    
-   //pad1 = new SoundPad(width/8, 80, 10, 130);
- 
-   //pad3 = new SoundPad(width/8, 380, 10, 130);
-   //pad4 = new SoundPad(width/8, 530, 10, 130);
-   
-   //pad5 = new SoundPad(width*0.845, 80, 10, 130);
-   //pad6 = new SoundPad(width*0.845, 230, 10, 130);
-   //pad7 = new SoundPad(width*0.845, 380, 10, 130);
-   //pad8 = new SoundPad(width*0.845, 530, 10, 130);
-   
-   /***** BALLS *****/
+    /***** BALLS *****/
    
    tb1 = new triggerBall();
   
-
+   
+   /***** SOUNDPADS *****/
+   
+   pad1 = new SoundPad(width/2, height*0.05, 380, 10);
+   
+   pad2 = new SoundPad(width/7.5, height/2, 10, 380);
+   
+   pad3 = new SoundPad(width/2, height*0.95, 380, 10);
+   
+   pad4 = new SoundPad(width*0.85, height/2, 10, 380);
+    
 
    //Create empty array for Boundaries
    boundaries = new ArrayList<Boundary>();
@@ -123,35 +115,30 @@ void setup() {
    yMod1 = new yellowMod(new Vec2(width/3,125));
    rMod1 = new redMod(new Vec2(width/1.99,125));
    gMod1 = new greenMod(new Vec2(426,125));
-  
-   yMod2 = new yellowMod(new Vec2(475, height/3));
-   rMod2 = new redMod(new Vec2(475, height/2));
-   gMod2 = new greenMod(new Vec2(475, 493));
+   
+      
+   yMod2 = new yellowMod(new Vec2(width/4, 493));
+   rMod2 = new redMod(new Vec2(width/4, height/2));
+   gMod2 = new greenMod(new Vec2(width/4, height/3));
    
    yMod3 = new yellowMod(new Vec2(426, 625));
    rMod3 = new redMod(new Vec2(width/1.99, 625));
    gMod3 = new greenMod(new Vec2(width/3, 625));
    
-   yMod4 = new yellowMod(new Vec2(width/4, 493));
-   rMod4 = new redMod(new Vec2(width/4, height/2));
-   gMod4 = new greenMod(new Vec2(width/4, height/3));
-        
-   //wm2 = new Windmill(new Vec2(width/2,150));
-   //wm3 = new Windmill(new Vec2(width/2,150));
-   
-   //wm2 = new Windmill(new Vec2(450,height/2));
-   //wm3 = new Windmill(new Vec2(width/2,600));
-   //wm4 = new Windmill(new Vec2(175,height/2));
+   yMod4 = new yellowMod(new Vec2(475, height/3));
+   rMod4 = new redMod(new Vec2(475, height/2));
+   gMod4 = new greenMod(new Vec2(475, 493));
   
   
    //Obstacle propellers 
-   //propeller = new ArrayList<Propeller>();
+   propeller = new ArrayList<Propeller>();
    
-   //propeller.add(new Propeller(new Vec2(175,150)));
-   //propeller.add(new Propeller(new Vec2(450,150)));
-   //propeller.add(new Propeller(new Vec2(175,600)));
-   //propeller.add(new Propeller(new Vec2(450,600)));
-   
+   propeller.add(new Propeller(new Vec2(220,310)));
+   propeller.add(new Propeller(new Vec2(220,430)));
+   propeller.add(new Propeller(new Vec2(400,310)));
+   propeller.add(new Propeller(new Vec2(400,430)));
+   propeller.add(new Propeller(new Vec2(width/2,250)));
+   propeller.add(new Propeller(new Vec2(width/2,500)));
     
 }
 
@@ -214,9 +201,9 @@ void gameScreen() {
 
   
    
-  // for (Propeller propeller : propeller) {
-  //  propeller.display();
-  //}
+   for (Propeller propeller : propeller) {
+    propeller.display();
+  }
   
   
   pb.display(255);

@@ -9,7 +9,7 @@ class modWheel{
   modWheel(Vec2 pos) {
   
   r = 15;
-  w = 60;
+  w = 80;
   h = 10;
   
   
@@ -25,7 +25,7 @@ class modWheel{
  
   //Create two rectangle shapes
   PolygonShape ps = new PolygonShape();
-  float box2dW = box2d.scalarPixelsToWorld(w/1.8);
+  float box2dW = box2d.scalarPixelsToWorld(w/2.8);
   float box2dH = box2d.scalarPixelsToWorld(h-1);
   ps.setAsBox(box2dW, box2dH);
   
@@ -77,12 +77,12 @@ void display(color col){
   stroke(0);
   //Rectangle 1 (PolygonShape 1)
   rectMode(CENTER);
-  rect(0,0,w,h,3);
+  rect(0,0,w/2,h,3);
   //Rectangle 2 (PolygonShape 2)
   rectMode(CENTER);
   rect(0,0,h,w,3);
   //Red marker lines 
-  stroke(#902222);
+  stroke(200);
   line(-24,-4,-24,4);
   line(-27,-4,-27,4);
   endShape();
