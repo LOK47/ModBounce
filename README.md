@@ -7,6 +7,8 @@ The GUI for this game has been developed in *Processing*, whilst its sound engin
 Please see Wiki page for further details. 
 
 
+
+
 <b>Instructions</b>
 
 1. Please run the <i>Processing</i> sketch before booting the <i>Supercollider</i> server and evaluating the code.
