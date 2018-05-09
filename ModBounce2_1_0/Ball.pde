@@ -12,7 +12,6 @@ Vec2 pos;
 Ball() {
   
   makeBody();
-  //b.setUserData(this);
   r = 12;
 }
 

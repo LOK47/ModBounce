@@ -16,7 +16,7 @@ import org.jbox2d.dynamics.*;
 import org.jbox2d.dynamics.contacts.*;
  
 
- //<>// GLOBAL VARIABLES  //<>//
+//<>// GLOBAL VARIABLES //<>// //<>//
 
 Box2DProcessing box2d;
 
@@ -33,14 +33,14 @@ PImage bg2;
 
 int gameScreen = 0;
 
+//Array list for all boundaries
+ArrayList<Boundary> boundaries;
+
 //Initialize player ball 
 Ball pb;
 
-//Initialize trigger balls
-triggerBall tb1, tb2, tb3, tb4;
-
-//Array list for all boundaries
-ArrayList<Boundary> boundaries;
+//Initialize chaos balls
+chaosBall cb1, cb2, cb3;
 
 //Initialize sound pads
 SoundPad pad1, pad2, pad3, pad4, pad5, pad6, pad7, pad8, pad9, pad10;
@@ -50,16 +50,17 @@ greenMod gMod1, gMod2, gMod3, gMod4;
 yellowMod yMod1, yMod2, yMod3, yMod4;
 redMod rMod1, rMod2, rMod3, rMod4;
 
-
-
+//ArrayList for chaos balls
+ArrayList<chaosBall> tb;
 
 //ArrayList for Propellers 
 ArrayList<Propeller> propeller;
 
 //Key Press Logic 
-boolean left, right, up, down, space; 
+boolean left, right, up, down, space, tab; 
 
- //<>// SETUP //<>//
+
+//<>// SETUP //<>// //<>//
 
 void setup() {
   size(640,740);
@@ -79,16 +80,22 @@ void setup() {
   bg = loadImage("modbounce_start.png");
   bg2 = loadImage("modbounce_gamescreen.png"); 
    
-  //Player balls
+
+ 
+   
+/***** BALLS *****/
+
+   //Player ball
    pb = new Ball();
- //pb2 = new Ball();
    
-    /***** BALLS *****/
-   
-   tb1 = new triggerBall();
+   //Shadow balls
+   cb1 = new chaosBall();
+   cb2 = new chaosBall();
+   cb3 = new chaosBall();
+ 
   
    
-   /***** SOUNDPADS *****/
+/***** SOUNDPADS *****/
    
    pad1 = new SoundPad(width/2, height*0.05, 380, 10);
    
@@ -99,7 +106,7 @@ void setup() {
    pad4 = new SoundPad(width*0.85, height/2, 10, 380);
     
 
-   //Create empty array for Boundaries
+//Create empty array for Boundaries
    boundaries = new ArrayList<Boundary>();
    
    //Floor boundary 
@@ -150,13 +157,16 @@ void draw() {
   
   box2d.step();
  
-  //Listen to mouse-clicks and only switch to gameplay screen when screen is clicked
+  //Change screens according to mouse/key input values 
   
   if (gameScreen == 0) {
     intScreen();
   } else if (gameScreen == 1) {
-    gameScreen();
-     
+    gameScreen();  
+  } 
+  
+   if (tab == true){
+  mixerScreen();
   } 
  
 }
@@ -171,13 +181,13 @@ void gameScreen() {
   
   background(bg2);
   
+  //Display soundpads
   pad1.display();
   pad2.display();
   pad3.display();
   pad4.display();
   
-  // Modwheel display
-  
+  //Display modwheels
   gMod1.display();
   yMod1.display();
   rMod1.display();
@@ -194,24 +204,23 @@ void gameScreen() {
   yMod4.display();
   rMod4.display();
   
- 
-  mapParameters();
-  
-  tb1.displayPink();
-
-  
-   
-  // for (Propeller propeller : propeller) {
-  //  propeller.display();
-  //}
-  
-  
+  //Display balls
   pb.display(255);
-  //pb2.display(50);
+  cb1.display();
+  cb2.display();
+  cb3.display();
+  
+  mapParameters();
 
- 
   fill(255);
   text("framerate: " + (int)frameRate,12,16);
+
+}
+
+  
+void mixerScreen(){
+
+  background(bg2);
 
 }
 
@@ -243,14 +252,17 @@ void keyPressed() {
     down = true;
     break;
     
+    case 9:
+    tab = true;
+    break;
+    
   }
   
-//Main ball controls
+//Player ball controls
   if (left == true){
     Vec2 impulse = new Vec2(-5,0);
     pb.applyLinearImpulse(impulse);   
   }
-  
     if (right == true){
     Vec2 impulse = new Vec2(5,0);
     pb.applyLinearImpulse(impulse);
@@ -264,32 +276,59 @@ void keyPressed() {
     pb.applyLinearImpulse(impulse);
   }
   
+//Chaos Ball (1) controls
+    if (left == true){
+    Vec2 impulse = new Vec2(-5,0);
+    cb1.applyLinearImpulse(impulse);  
+  }
+    if (right == true){
+    Vec2 impulse = new Vec2(-5,0);
+    cb1.applyLinearImpulse(impulse);
+  }
+     if (up == true){
+    Vec2 impulse = new Vec2(0,-5);
+    cb1.applyLinearImpulse(impulse);
+  }
+  if (down == true){
+    Vec2 impulse = new Vec2(0,5);
+    cb1.applyLinearImpulse(impulse);
+  }
  
-//Shadow Ball (1) controls
+//Chaos Ball (2) controls
+    if (left == true){
+    Vec2 impulse = new Vec2(0,5);
+    cb2.applyLinearImpulse(impulse);  
+  }
+    if ( right == true){
+    Vec2 impulse = new Vec2(0,-5);
+    cb2.applyLinearImpulse(impulse);
+  }
+     if (up == true){
+    Vec2 impulse = new Vec2(-5,0);
+    cb2.applyLinearImpulse(impulse);
+  }
+  if (down == true){
+    Vec2 impulse = new Vec2(5,0);
+    cb2.applyLinearImpulse(impulse);
+  }
   
-  //if (left == true){
-  //   Vec2 impulse = new Vec2(5,0);
-  //  pb2.applyLinearImpulse(impulse);
-  //}
-  
-
-  //  if (right == true){
-  //  Vec2 impulse = new Vec2(-5,0);
-  //  pb2.applyLinearImpulse(impulse);
-  //}
-  
-  //   if (up == true){
-  //  Vec2 impulse = new Vec2(0,-5);
-  //  pb2.applyLinearImpulse(impulse);
-  //}
-  
-   
-  //if (down == true){
-  //  Vec2 impulse = new Vec2(0,5);
-  //  pb2.applyLinearImpulse(impulse);
-  //}
-  
-  //Stop all sound
+//Chaos Ball (3) controls
+    if (left == true){
+    Vec2 impulse = new Vec2(0,-5);
+    cb3.applyLinearImpulse(impulse);  
+  }
+    if ( right == true){
+    Vec2 impulse = new Vec2(0,5);
+    cb3.applyLinearImpulse(impulse);
+  }
+     if (up == true){
+    Vec2 impulse = new Vec2(5,0);
+    cb3.applyLinearImpulse(impulse);
+  }
+  if (down == true){
+    Vec2 impulse = new Vec2(-5,0);
+    cb3.applyLinearImpulse(impulse);
+  }
   
 }
   
@@ -316,6 +355,10 @@ void keyReleased() {
     
     case 40:
     down = false;
+    break;
+    
+    case 9:
+    tab = false;
     break;
   }
 }

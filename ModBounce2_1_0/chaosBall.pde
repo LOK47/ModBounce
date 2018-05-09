@@ -1,4 +1,4 @@
-class triggerBall {
+class chaosBall {
 
  Body b;
 
@@ -9,19 +9,19 @@ Vec2 velocity;
 Vec2 pos;
 
 //Constructor
-triggerBall() {
+chaosBall() {
   
   makeBody();
   r = 12;
 }
 
 
-void displayPink() {
+void display() {
   
   Vec2 pos = box2d.getBodyPixelCoord(b);
   
   
-  fill(#f44271);
+  fill(random(0,255), random(0,255), random(0,255), 100);
   noStroke();
   ellipse(pos.x ,pos.y , r, r);
  
@@ -30,7 +30,7 @@ void displayPink() {
 
 void makeBody(){
 //Starting position in box2d vector
-  Vec2 pos = box2d.coordPixelsToWorld(width/2, height/2);
+  Vec2 pos = box2d.coordPixelsToWorld(random(100, 400), random(200, 400));
   
 //Define body 
   BodyDef bd = new BodyDef();
@@ -57,7 +57,7 @@ void makeBody(){
 
   fd.density = 1;
   fd.friction = 0.2;
-  fd.restitution = 1.2;
+  fd.restitution = 1.5;
   
 //Attach fixture to body
   
@@ -70,12 +70,13 @@ void makeBody(){
  
 }
 
-//void applyForce(Vec2 force, Vec2 point){
+void applyLinearImpulse(Vec2 impulse){
   
-// Vec2 pos = b.getWorldCenter(); 
+  Vec2 pos = b.getWorldCenter(); 
   
-// point = pos;
- 
-// }
+  b.applyLinearImpulse(impulse, pos, true);
+  
+}
+
  
 }
