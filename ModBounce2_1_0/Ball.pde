@@ -37,7 +37,7 @@ void makeBody(){
   bd.type = BodyType.DYNAMIC;
   bd.position.set(pos);
   bd.bullet = true;
-  bd.linearDamping = 0.2;
+  bd.linearDamping = 0.5;
   
   
 //Create body
@@ -55,7 +55,7 @@ void makeBody(){
 
   fd.density = 0.5;
   fd.friction = 0.2;
-  fd.restitution = 1.2;
+  fd.restitution = 0.5;
   
 //Attach fixture to body
   

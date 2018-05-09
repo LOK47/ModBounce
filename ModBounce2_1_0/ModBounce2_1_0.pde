@@ -131,14 +131,14 @@ void setup() {
   
   
    //Obstacle propellers 
-   propeller = new ArrayList<Propeller>();
+   //propeller = new ArrayList<Propeller>();
    
-   propeller.add(new Propeller(new Vec2(220,310)));
-   propeller.add(new Propeller(new Vec2(220,430)));
-   propeller.add(new Propeller(new Vec2(400,310)));
-   propeller.add(new Propeller(new Vec2(400,430)));
-   propeller.add(new Propeller(new Vec2(width/2,250)));
-   propeller.add(new Propeller(new Vec2(width/2,500)));
+   //propeller.add(new Propeller(new Vec2(220,310)));
+   //propeller.add(new Propeller(new Vec2(220,430)));
+   //propeller.add(new Propeller(new Vec2(400,310)));
+   //propeller.add(new Propeller(new Vec2(400,430)));
+   //propeller.add(new Propeller(new Vec2(width/2,250)));
+   //propeller.add(new Propeller(new Vec2(width/2,500)));
     
 }
 
@@ -201,9 +201,9 @@ void gameScreen() {
 
   
    
-   for (Propeller propeller : propeller) {
-    propeller.display();
-  }
+  // for (Propeller propeller : propeller) {
+  //  propeller.display();
+  //}
   
   
   pb.display(255);

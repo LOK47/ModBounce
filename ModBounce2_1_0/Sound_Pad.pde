@@ -38,7 +38,7 @@ class SoundPad {
    fd.shape = sd;
 
    
-   fd.restitution = 2;
+   fd.restitution = 3;
    b.createFixture(sd, 1);
     
     b.setUserData(this);

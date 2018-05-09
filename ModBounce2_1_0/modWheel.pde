@@ -43,8 +43,8 @@ class modWheel{
 
 // Physics parameters 
 
-  fd.density = 1;
-  fd.friction = 0.2;
+  fd.density = 0.5;
+  fd.friction = 1;
   fd.restitution = 0;
   
 //Attach fixture to body

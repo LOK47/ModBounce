@@ -17,9 +17,9 @@ class yellowMod {
     RevoluteJointDef rjd = new RevoluteJointDef();
 
     rjd.initialize(wheel.body, anchor.body, anchor.body.getWorldCenter());
-    //rjd.enableLimit = true;
-    //rjd.lowerAngle = box2d.scalarPixelsToWorld(0.0);
-    //rjd.upperAngle = box2d.scalarPixelsToWorld(47.0);
+    rjd.enableLimit = true;
+    rjd.lowerAngle = box2d.scalarPixelsToWorld(0.0);
+    rjd.upperAngle = box2d.scalarPixelsToWorld(60.0);
     
 
       // Create the joint
