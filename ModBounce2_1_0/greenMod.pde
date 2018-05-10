@@ -1,7 +1,5 @@
 class greenMod {
 
-  // Our object is two boxes and one joint
-  // Consider making the fixed box much smaller and not drawing it
   RevoluteJoint joint;
   modWheel wheel;
   WheelAnchor anchor;
@@ -25,11 +23,8 @@ class greenMod {
       // Create the joint
     joint = (RevoluteJoint) box2d.world.createJoint(rjd);
     
-
     
   }
-
-
 
   void display() {
     anchor.display(#427b4e);

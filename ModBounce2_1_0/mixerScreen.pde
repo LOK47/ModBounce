@@ -82,8 +82,7 @@ class VScrollbar
   }
 
   public float getPos() {
-    // Convert spos to be values between
-    // 0 and the total width of the scrollbar
+    //Get position of slider
     return spos;
   }
 }

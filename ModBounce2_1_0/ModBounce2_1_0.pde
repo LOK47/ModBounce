@@ -178,12 +178,12 @@ void draw() {
   mixerScreen();
   } 
   
+  //Update volume slider position
   vs1.update();
   vs2.update();
   vs3.update();
   vs4.update();
   
- 
 }
 
 
@@ -237,8 +237,7 @@ void gameScreen() {
 }
   
   mapParameters();
-  
-
+ 
 
   fill(255);
   text("framerate: " + (int)frameRate,12,16);
@@ -383,9 +382,6 @@ void keyReleased() {
     break;
   }
 }
-
-
-
      
 public void mousePressed() {
   if (gameScreen==0) {

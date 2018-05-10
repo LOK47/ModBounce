@@ -1,7 +1,6 @@
 class Propeller {
 
-  // Our object is two boxes and one joint
-  // Consider making the fixed box much smaller and not drawing it
+  // Two boxes and one joint
   RevoluteJoint joint;
   propellerWheel wheel;
   propellerAnchor anchor;
@@ -17,11 +16,6 @@ class Propeller {
 
     rjd.initialize(wheel.body, anchor.body, anchor.body.getWorldCenter());
 
-
-
-    // There are many other properties you can set for a Revolute joint
-    // For example, you can limit its angle between a minimum and a maximum
-    // See box2d manual for more
 
       // Create the joint
     joint = (RevoluteJoint) box2d.world.createJoint(rjd);

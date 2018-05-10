@@ -57,7 +57,6 @@ class modWheel{
   body.setUserData(this);
   
   
-
 }
 
 void display(color col){
