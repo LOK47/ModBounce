@@ -30,7 +30,7 @@ void display() {
 
 void makeBody(){
 //Starting position in box2d vector
-  Vec2 pos = box2d.coordPixelsToWorld(random(100, 400), random(200, 400));
+  Vec2 pos = box2d.coordPixelsToWorld(width/2, height/2);
   
 //Define body 
   BodyDef bd = new BodyDef();

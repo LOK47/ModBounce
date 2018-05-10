@@ -9,7 +9,7 @@ class modWheel{
   modWheel(Vec2 pos) {
   
   r = 15;
-  w = 80;
+  w = 60;
   h = 10;
   
   

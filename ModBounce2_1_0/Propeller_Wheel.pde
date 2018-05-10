@@ -16,7 +16,7 @@ propellerWheel(Vec2 pos) {
   BodyDef bd = new BodyDef();
   bd.type = BodyType.DYNAMIC;
   bd.position.set(box2d.coordPixelsToWorld(pos.x,pos.y));
-  bd.angularVelocity = (random(-6, 6)); 
+  bd.angularVelocity = 4; 
   //Create body
   body = box2d.world.createBody(bd); 
   

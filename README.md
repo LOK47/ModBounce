@@ -4,7 +4,9 @@ ModBounce is a game oriented synth and pattern controller, which uses the wander
 
 The GUI for this game has been developed in *Processing*, whilst its sound engine has been developed in *Supercollider*.
 
-Please see Wiki page for further details. 
+Please see the Wiki page below for further details;
+
+https://github.com/LOK47/ModBounce.wiki.git
 
 
 

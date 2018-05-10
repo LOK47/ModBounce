@@ -1,11 +1,9 @@
- //<>// //<>//
+ //<>// Import Libraries  //<>// //<>//
  //<>//
 
 import netP5.*;
 import oscP5.*;
-
  //<>//
- 
 import shiffman.box2d.*;
 import org.jbox2d.common.*;
 import org.jbox2d.dynamics.joints.*;
@@ -36,6 +34,12 @@ int gameScreen = 0;
 //Array list for all boundaries
 ArrayList<Boundary> boundaries;
 
+//ArrayList for chaos balls
+ArrayList<chaosBall> tb;
+
+//ArrayList for Propellers 
+ArrayList<Propeller> propeller;
+
 //Initialize player ball 
 Ball pb;
 
@@ -50,11 +54,8 @@ greenMod gMod1, gMod2, gMod3, gMod4;
 yellowMod yMod1, yMod2, yMod3, yMod4;
 redMod rMod1, rMod2, rMod3, rMod4;
 
-//ArrayList for chaos balls
-ArrayList<chaosBall> tb;
-
-//ArrayList for Propellers 
-ArrayList<Propeller> propeller;
+//Initialize bumpers
+Bumper bump1, bump2, bump3, bump4;
 
 //Key Press Logic 
 boolean left, right, up, down, space, tab; 
@@ -75,13 +76,10 @@ void setup() {
   osc = new OscP5(this, 12000);
   supercollider = new NetAddress("127.0.0.1", 57120);
  
-  smooth();
+  smooth(4);
   frameRate(400);
   bg = loadImage("modbounce_start.png");
   bg2 = loadImage("modbounce_gamescreen.png"); 
-   
-
- 
    
 /***** BALLS *****/
 
@@ -92,8 +90,6 @@ void setup() {
    cb1 = new chaosBall();
    cb2 = new chaosBall();
    cb3 = new chaosBall();
- 
-  
    
 /***** SOUNDPADS *****/
    
@@ -119,33 +115,37 @@ void setup() {
    boundaries.add(new Boundary(width*0.86, 40, 2, height*0.9));
 
    //Parameter Modwheels
-   yMod1 = new yellowMod(new Vec2(width/3,125));
-   rMod1 = new redMod(new Vec2(width/1.99,125));
-   gMod1 = new greenMod(new Vec2(426,125));
+   yMod1 = new yellowMod(new Vec2(280,140));
+   rMod1 = new redMod(new Vec2(230,190));
+   gMod1 = new greenMod(new Vec2(180,240));
    
-      
-   yMod2 = new yellowMod(new Vec2(width/4, 493));
-   rMod2 = new redMod(new Vec2(width/4, height/2));
-   gMod2 = new greenMod(new Vec2(width/4, height/3));
+   yMod2 = new yellowMod(new Vec2(280, 600));
+   rMod2 = new redMod(new Vec2(230, 550));
+   gMod2 = new greenMod(new Vec2(180, 500));
    
-   yMod3 = new yellowMod(new Vec2(426, 625));
-   rMod3 = new redMod(new Vec2(width/1.99, 625));
-   gMod3 = new greenMod(new Vec2(width/3, 625));
+   yMod3 = new yellowMod(new Vec2(350, 600));
+   rMod3 = new redMod(new Vec2(400, 550));
+   gMod3 = new greenMod(new Vec2(450, 500));
    
-   yMod4 = new yellowMod(new Vec2(475, height/3));
-   rMod4 = new redMod(new Vec2(475, height/2));
-   gMod4 = new greenMod(new Vec2(475, 493));
+   yMod4 = new yellowMod(new Vec2(350, 140));
+   rMod4 = new redMod(new Vec2(400, 190));
+   gMod4 = new greenMod(new Vec2(450, 240));
+   
+   //Bumpers
+   bump1 = new Bumper(new Vec2(200, 615), 10, 200, 7.1);
+   bump2 = new Bumper(new Vec2(430, 615), 10, 200, -7.1);
+   bump3 = new Bumper(new Vec2(200, 125), 10, 200, -7.1);
+   bump4 = new Bumper(new Vec2(430, 125), 10, 200, 7.1);
   
   
    //Obstacle propellers 
-   //propeller = new ArrayList<Propeller>();
+   propeller = new ArrayList<Propeller>();
    
-   //propeller.add(new Propeller(new Vec2(220,310)));
-   //propeller.add(new Propeller(new Vec2(220,430)));
-   //propeller.add(new Propeller(new Vec2(400,310)));
-   //propeller.add(new Propeller(new Vec2(400,430)));
-   //propeller.add(new Propeller(new Vec2(width/2,250)));
-   //propeller.add(new Propeller(new Vec2(width/2,500)));
+   propeller.add(new Propeller(new Vec2(180,height/2)));
+   propeller.add(new Propeller(new Vec2(450,height/2)));
+   propeller.add(new Propeller(new Vec2(width/2,240)));
+   propeller.add(new Propeller(new Vec2(width/2,500)));
+ 
     
 }
 
@@ -210,7 +210,20 @@ void gameScreen() {
   cb2.display();
   cb3.display();
   
-  mapParameters();
+  //Display Bumpers
+  bump1.display();
+  bump2.display();
+  bump3.display();
+  bump4.display();
+  
+  //Display propellers
+  for (Propeller propeller : propeller){
+  propeller.display();
+}
+  
+  //mapParameters();
+  
+
 
   fill(255);
   text("framerate: " + (int)frameRate,12,16);
