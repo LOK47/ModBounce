@@ -52,12 +52,12 @@ void mapParameters(){
   OscMessage msg11 = new OscMessage("/pad3CLOSEGATE");
   osc.send(msg11, supercollider);}
   
-  OscMessage msg12 = new OscMessage("/pad3NOTE");
-  msg12.add(map(gMod3.getAngle(),-0, -6, 0, 20));
+  OscMessage msg12 = new OscMessage("/pad3RATE");
+  msg12.add(map(gMod3.getAngle(),-0, -6, 0.2, 2));
   osc.send(msg12, supercollider);
   
-  OscMessage msg13 = new OscMessage("/pad3DETUNE");
-  msg13.add(map(yMod3.getAngle(),-0, -6, 0, 12));
+  OscMessage msg13 = new OscMessage("/pad3STRETCH");
+  msg13.add(map(yMod3.getAngle(),-0, -6, 0.5, 2));
   osc.send(msg13, supercollider);
   
   OscMessage msg14 = new OscMessage("/pad3DURATION");

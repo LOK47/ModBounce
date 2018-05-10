@@ -13,6 +13,7 @@ following sounds are modifcations of his YouTube tutorials! :)
 (
    ~out = 0;
    ~path = PathName(thisProcess.nowExecutingPath).parentPath++"buffers/";
+
 )
 
 
@@ -35,8 +36,11 @@ following sounds are modifcations of his YouTube tutorials! :)
 
 )
 
+NetAddr.localAddr;
+
 
 //3. SynthDefs
+
 (
 SynthDef.new(\bpfsaw, {
 	arg atk=2, sus=0, rel=3, c1=1, c2=(-1),
@@ -59,15 +63,6 @@ SynthDef.new(\bpfsaw, {
 	Out.ar(out, sig);
 }).add;
 
-SynthDef.new(\sinestuff, {
-	arg freq=440, atk=0.005, rel=0.3, amp=1, pan=0, nharm=12, detune=0.2;
-	var sig, env;
-	sig = SinOsc.ar(freq * LFNoise1.kr(0.2!16).bipolar(detune.neg,detune).midiratio, nharm);
-	env = EnvGen.kr(Env.new([0,1,0],[atk,rel],[1,-1]),doneAction:2);
-	sig = Pan2.ar(sig, pan, amp);
-	sig = sig * env;
-	Out.ar(0, sig);
-}).add;
 
 SynthDef.new(\Sinetone, {
 	arg freq=40, nharm=12, detune=0.2, gate=0,
@@ -82,18 +77,6 @@ SynthDef.new(\Sinetone, {
 	Out.ar(out, sig);
 }).add;
 
-/*SynthDef.new(\sine, {
-	arg freq=440, atk=0.005, rel=0.3, amp=1, gate=1, pan=0, ffreq1=Pexprand([200, 500], inf);
-	var sig, env;
-	sig = SinOsc.ar(freq);
-	env = EnvGen.kr(Env.new([0,1,0], [atk, rel], [1, -1]), gate);
-	sig = Pan2.ar(sig, pan, amp);
-	sig = sig * env;
-	Out.ar(0, sig);
-
-}).add;*/
-
-
 SynthDef.new(\bpfbuf, {
 	arg atk=0, sus=0, rel=3, c1=1, c2=(-1),
 	buf=0, rate=1, spos=0, freq=440, rq=1, bpfmix=0,
@@ -107,13 +90,16 @@ SynthDef.new(\bpfbuf, {
 	Out.ar(out, sig);
 }).add;
 
-SynthDef.new(\blip, {
-	arg out, freq = 440, amp=1;
-	var sig;
-	sig = SinOsc.ar(freq) * 0.25;
-	sig = sig * EnvGen.kr(Env.perc(0.01, 0.2), 1);
-	sig = Pan2.ar(sig, LFNoise1.kr(10));
-	sig = sig * amp;
+SynthDef.new(\bpfbuf2, {
+	arg atk=0, sus=0, rel=3, c1=1, c2=(-1),
+	buf=0, rate=1, spos=0, freq=440, rq=1, bpfmix=0,
+	pan=0, amp=1, out=0;
+	var sig, env;
+	env = EnvGen.kr(Env([0,1,1,0],[atk,sus,rel],[c1,0,c2]),doneAction:2);
+	sig = PlayBuf.ar(1, buf, rate*BufRateScale.ir(buf),startPos:spos);
+	sig = XFade2.ar(sig, BPF.ar(sig, freq, rq, 1/rq.sqrt), bpfmix*2-1);
+	sig = sig * env;
+	sig = Pan2.ar(sig, pan, amp);
 	Out.ar(out, sig);
 }).add;
 
@@ -124,8 +110,9 @@ SynthDef.new(\reverb, {
 	sig = FreeVerb.ar(sig, 0.5, 0.8, 0.2);
 	Out.ar(out, sig);
 }).add;
+);
 
-)
+
 
 
 //4. Reverb bus and synth
@@ -133,7 +120,6 @@ SynthDef.new(\reverb, {
    ~reverbBus = Bus.audio(s, 2);
 
 )
-
 
 (
 r = Synth.new(\reverb, [\in, ~reverbBus2], s, \addToTail);
@@ -202,7 +188,7 @@ y = Synth.new(\bpfsaw, [\gate, 1, \out, 0], s);
 			\rel, Pwhite(6.5,10.0),
 			\ldb, 6,
 			\out, 0,
-		).play;
+		);
 
 
 OSCdef.new(
@@ -250,61 +236,58 @@ OSCdef.new(
 
 //5c. Pad3 pattern + OSC messages
 
-z = Synth.new(\sinestuff, [\out, 0]);
-
-	Pbindef(\hauntedSine,
-		\instrument, \sinestuff,
-		\dur, Pseq([1/8], inf),
-		\midinote, 20,
-		\harmonic, Pexprand(1, 30, inf).round.trace,
-		\detune, 3,
-		\atk, Pwhite(1.0, 3.0, inf),
-		\rel, Pwhite(0.05, 0.5, inf),
-		\amp, Pexprand(0.01, 0.2, inf),
-		\pan, Pwhite(-0.8, 0.8, inf),
+Pbindef(\clicks,
+		\instrument, \bpfbuf2,
+		\dur, Pseq([1/9], inf),
+		\stretch, 1.872,
+		\buf, Prand(b[\clicks], inf),
+		\rate, 0.5,
+		\amp, Pseq([0.5, Pexprand(0.005, 0.2, 7)], inf),
 		\out, 0,
 	);
 
 OSCdef.new(
 	\pad3OPENGATE, {
-		Pbindef(\hauntedSine).play;
+		Pbindef(\clicks).play;
 	}, "/pad3OPENGATE"
 );
 
 OSCdef.new(
 	\pad3CLOSEGATE, {
-		Pbindef(\hauntedSine).stop;
+		Pbindef(\clicks).stop;
 	}, "/pad3CLOSEGATE"
 );
 
 OSCdef.new(
-	\pad3NOTE, {
+	\pad3STRETCH, {
 		arg msg;
-		Pbindef(\hauntedSine, \midinote, msg[1]);
-	}, "/pad3NOTE"
-);
-
-
-OSCdef.new(
-	\pad3DETUNE, {
-		arg msg;
-		Pbindef(\hauntedSine, \detune, msg[1]);
-	}, "/pad3DETUNE"
+		Pbindef(\clicks, \stretch, msg[1]);
+	}, "/pad3STRETCH"
 );
 
 OSCdef.new(
 	\pad3DURATION, {
 		arg msg;
-		Pbindef(\hauntedSine, \dur, Pseq([1/msg[1]], inf));
+		Pbindef(\clicks, \dur, Pseq([1/msg[1]], inf));
 	}, "/pad3DURATION"
+);
+
+OSCdef.new(
+	\pad3RATE, {
+		arg msg;
+		Pbindef(\clicks, \rate, msg[1]);
+
+	}, "/pad3RATE"
 );
 
 OSCdef.new(
 	\pad3AMP, {
 		arg msg, time, addr, port;
-		Pbindef(\hauntedSine, \amp, msg[1]);
+		Pbindef(\clicks, \amp, msg[1]);
 	}, "/pad3AMP"
 );
+
+
 
 //5d. Pad 4 pattern + OSC messages
 
