@@ -87,6 +87,10 @@ void mapParameters(){
   msg19.add(map(rMod4.getAngle(), -0, -6, 1, 16));
   osc.send(msg19, supercollider);
    
-  
+   //***** Mixer Mapping *****//
+   
+  OscMessage msg20 = new OscMessage("/pad1AMP");
+  msg20.add(map(vs1.getPos(),0, 400, 0.0, 1.0));
+  osc.send(msg20, supercollider);
 
 }

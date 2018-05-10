@@ -57,6 +57,10 @@ redMod rMod1, rMod2, rMod3, rMod4;
 //Initialize bumpers
 Bumper bump1, bump2, bump3, bump4;
 
+//Initilize mixer faders
+VScrollbar vs1, vs2, vs3, vs4;
+
+
 //Key Press Logic 
 boolean left, right, up, down, space, tab; 
 
@@ -145,7 +149,12 @@ void setup() {
    propeller.add(new Propeller(new Vec2(450,height/2)));
    propeller.add(new Propeller(new Vec2(width/2,240)));
    propeller.add(new Propeller(new Vec2(width/2,500)));
- 
+   
+   //Mixer faders
+   vs1 = new VScrollbar(167, 300, 50, 400, 5);
+   vs2 = new VScrollbar(267, 300, 50, 400, 5);
+   vs3 = new VScrollbar(367, 300, 50, 400, 5);
+   vs4 = new VScrollbar(467, 300, 50, 400, 5);
     
 }
 
@@ -165,9 +174,15 @@ void draw() {
     gameScreen();  
   } 
   
-   if (tab == true){
+   if (space == true){
   mixerScreen();
   } 
+  
+  vs1.update();
+  vs2.update();
+  vs3.update();
+  vs4.update();
+  
  
 }
 
@@ -221,19 +236,12 @@ void gameScreen() {
   propeller.display();
 }
   
-  //mapParameters();
+  mapParameters();
   
 
 
   fill(255);
   text("framerate: " + (int)frameRate,12,16);
-
-}
-
-  
-void mixerScreen(){
-
-  background(bg2);
 
 }
 
