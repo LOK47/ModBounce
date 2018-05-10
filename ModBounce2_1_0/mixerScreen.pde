@@ -84,6 +84,6 @@ class VScrollbar
   public float getPos() {
     // Convert spos to be values between
     // 0 and the total width of the scrollbar
-    return spos * ratio;
+    return spos;
   }
 }

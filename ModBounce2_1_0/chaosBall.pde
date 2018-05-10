@@ -57,7 +57,7 @@ void makeBody(){
 
   fd.density = 1;
   fd.friction = 0.2;
-  fd.restitution = 1.5;
+  fd.restitution = 1;
   
 //Attach fixture to body
   

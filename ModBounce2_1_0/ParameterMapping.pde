@@ -34,11 +34,11 @@ void mapParameters(){
   osc.send(msg7, supercollider);
   
   OscMessage msg8 = new OscMessage("/pad2STRETCH");
-  msg8.add(map(yMod2.getAngle(),-0, -6, 2, 10));
+  msg8.add(map(yMod2.getAngle(),-0, -6, 0.5, 2));
   osc.send(msg8, supercollider);
   
-  OscMessage msg9 = new OscMessage("/pad2DURATION");
-  msg9.add(map(rMod2.getAngle(), -0, -6, 1, 16));
+  OscMessage msg9 = new OscMessage("/pad2DETUNE");
+  msg9.add(map(rMod2.getAngle(), -0, -6, 0, 10));
   osc.send(msg9, supercollider);
   
    //***** PAD 3 *****//
@@ -80,7 +80,7 @@ void mapParameters(){
   osc.send(msg17, supercollider);
   
   OscMessage msg18 = new OscMessage("/pad4STRETCH");
-  msg18.add(map(yMod4.getAngle(),-0, -6, 1.5, 3));
+  msg18.add(map(yMod4.getAngle(),-0, -6, 0.5, 2 ));
   osc.send(msg18, supercollider);
   
   OscMessage msg19 = new OscMessage("/pad4DURATION");
@@ -90,7 +90,19 @@ void mapParameters(){
    //***** Mixer Mapping *****//
    
   OscMessage msg20 = new OscMessage("/pad1AMP");
-  msg20.add(map(vs1.getPos(),0, 400, 0.0, 1.0));
+  msg20.add(map(vs1.getPos(),700, 300, 0, 1));
   osc.send(msg20, supercollider);
+  
+  OscMessage msg21 = new OscMessage("/pad2AMP");
+  msg21.add(map(vs2.getPos(),700, 300, 0, 1));
+  osc.send(msg21, supercollider);
+  
+  OscMessage msg22 = new OscMessage("/pad3AMP");
+  msg22.add(map(vs3.getPos(),700, 300, 0, 1));
+  osc.send(msg22, supercollider);
+  
+  OscMessage msg23 = new OscMessage("/pad4AMP");
+  msg23.add(map(vs4.getPos(),700, 300, 0, 1));
+  osc.send(msg23, supercollider);
 
 }

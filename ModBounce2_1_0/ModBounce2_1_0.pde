@@ -299,55 +299,55 @@ void keyPressed() {
   
 //Chaos Ball (1) controls
     if (left == true){
-    Vec2 impulse = new Vec2(-5,0);
+    Vec2 impulse = new Vec2(-3,0);
     cb1.applyLinearImpulse(impulse);  
   }
     if (right == true){
-    Vec2 impulse = new Vec2(-5,0);
+    Vec2 impulse = new Vec2(-3,0);
     cb1.applyLinearImpulse(impulse);
   }
      if (up == true){
-    Vec2 impulse = new Vec2(0,-5);
+    Vec2 impulse = new Vec2(0,-3);
     cb1.applyLinearImpulse(impulse);
   }
   if (down == true){
-    Vec2 impulse = new Vec2(0,5);
+    Vec2 impulse = new Vec2(0,3);
     cb1.applyLinearImpulse(impulse);
   }
  
 //Chaos Ball (2) controls
     if (left == true){
-    Vec2 impulse = new Vec2(0,5);
+    Vec2 impulse = new Vec2(0,3);
     cb2.applyLinearImpulse(impulse);  
   }
     if ( right == true){
-    Vec2 impulse = new Vec2(0,-5);
+    Vec2 impulse = new Vec2(0,-3);
     cb2.applyLinearImpulse(impulse);
   }
      if (up == true){
-    Vec2 impulse = new Vec2(-5,0);
+    Vec2 impulse = new Vec2(-3,0);
     cb2.applyLinearImpulse(impulse);
   }
   if (down == true){
-    Vec2 impulse = new Vec2(5,0);
+    Vec2 impulse = new Vec2(3,0);
     cb2.applyLinearImpulse(impulse);
   }
   
 //Chaos Ball (3) controls
     if (left == true){
-    Vec2 impulse = new Vec2(0,-5);
+    Vec2 impulse = new Vec2(0,-3);
     cb3.applyLinearImpulse(impulse);  
   }
     if ( right == true){
-    Vec2 impulse = new Vec2(0,5);
+    Vec2 impulse = new Vec2(0,3);
     cb3.applyLinearImpulse(impulse);
   }
      if (up == true){
-    Vec2 impulse = new Vec2(5,0);
+    Vec2 impulse = new Vec2(3,0);
     cb3.applyLinearImpulse(impulse);
   }
   if (down == true){
-    Vec2 impulse = new Vec2(-5,0);
+    Vec2 impulse = new Vec2(-3,0);
     cb3.applyLinearImpulse(impulse);
   }
   

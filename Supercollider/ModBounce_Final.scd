@@ -82,7 +82,7 @@ SynthDef.new(\Sinetone, {
 	Out.ar(out, sig);
 }).add;
 
-SynthDef.new(\sine, {
+/*SynthDef.new(\sine, {
 	arg freq=440, atk=0.005, rel=0.3, amp=1, gate=1, pan=0, ffreq1=Pexprand([200, 500], inf);
 	var sig, env;
 	sig = SinOsc.ar(freq);
@@ -91,7 +91,7 @@ SynthDef.new(\sine, {
 	sig = sig * env;
 	Out.ar(0, sig);
 
-}).add;
+}).add;*/
 
 
 SynthDef.new(\bpfbuf, {
@@ -108,11 +108,12 @@ SynthDef.new(\bpfbuf, {
 }).add;
 
 SynthDef.new(\blip, {
-	arg out, freq = 440;
+	arg out, freq = 440, amp=1;
 	var sig;
 	sig = SinOsc.ar(freq) * 0.25;
 	sig = sig * EnvGen.kr(Env.perc(0.01, 0.2), 1);
 	sig = Pan2.ar(sig, LFNoise1.kr(10));
+	sig = sig * amp;
 	Out.ar(out, sig);
 }).add;
 
@@ -130,18 +131,17 @@ SynthDef.new(\reverb, {
 //4. Reverb bus and synth
 (
    ~reverbBus = Bus.audio(s, 2);
-   r = Synth.new(\reverb, [\in, ~reverbBus2], s, \addToTail);
 
 )
 
 
+(
+r = Synth.new(\reverb, [\in, ~reverbBus2], s, \addToTail);
 
 
 //5a. Pad1 synth + OSC messages
 
-(
-
-x = Synth.new(\Sinetone, [\out, ~reverbBus], s);
+x = Synth.new(\Sinetone, [\out, 0], s);
 
 OSCdef.new(
 	\pad1GATE, {
@@ -171,67 +171,86 @@ OSCdef.new(
 	}, "/pad1HARMONICS"
 );
 
+OSCdef.new(
+	\pad1AMP, {
+		arg msg, time, addr, port;
+		x.set(\amp, msg[1]);
+	}, "/pad1AMP"
+);
+
 
 //5b. Pad2 pattern + OSC messages
 
-y = Synth.new(\blip, [\out, ~reverbBus], s);
+y = Synth.new(\bpfsaw, [\gate, 1, \out, 0], s);
 
-Pbindef(\blip,
-		\instrument, \blip,
-		\dur, Pseq([1/8], inf),
-		\stretch, 1.875,
-	\note, Pxrand([
+	Pbindef(\chords,
+			\instrument, \bpfsaw,
+			\dur, Pwhite(4.5,7.0),
+			\midinote, Pxrand([
 				[23,35,54,63,64],
 				[45,52,54,59,61,64],
 				[28,40,47,56,59,63],
 				[42,52,57,61,63]
 			], inf),
-		\ctranspose, 0,
-		\atk, 0.002,
-		\rel, Pexprand(0.1, 0.5, inf),
-		\amp, Pexprand(0.05, 0.5,inf),
-		\pan, Pwhite(-0.8, 0.8, inf),
-	    \out, ~reverbBus,
-).play;
+			\ctranspose, -3,
+	        \stretch, 0.5,
+			\detune, 0,
+			\cfmin, 100,
+			\cfmax, 1500,
+			\rqmin, Pexprand(0.01,0.15),
+			\atk, Pwhite(2.0,2.5),
+			\rel, Pwhite(6.5,10.0),
+			\ldb, 6,
+			\out, 0,
+		).play;
+
 
 OSCdef.new(
 	\pad2OPENGATE, {
-		Pbindef(\blip).play.postln;
+		Pbindef(\chords).play;
 	}, "/pad2OPENGATE"
 );
 
 OSCdef.new(
 	\pad2CLOSEGATE, {
-		Pbindef(\blip).stop;
+		Pbindef(\chords).stop;
 	}, "/pad2CLOSEGATE"
 );
 
 OSCdef.new(
 	\pad2TRANSPOSE, {
 		arg msg;
-		Pbindef(\blip, \ctranspose, msg[1]);
+		Pbindef(\chords, \ctranspose, msg[1]);
 	}, "/pad2TRANSPOSE"
 );
 
 OSCdef.new(
 	\pad2STRETCH, {
 		arg msg;
-		Pbindef(\blip, \stretch, msg[1]);
+		Pbindef(\chords, \stretch, msg[1]);
 	}, "/pad2STRETCH"
 );
 
 OSCdef.new(
-	\pad2DURATION, {
+	\pad2DETUNE, {
 		arg msg;
-		Pbindef(\blip, \dur, Pseq([1/msg[1]], inf));
-	}, "/pad2DURATION"
+		Pbindef(\chords, \detune, msg[1]);
+	}, "/pad2DETUNE"
 );
+
+OSCdef.new(
+	\pad2AMP, {
+		arg msg, time, addr, port;
+		Pbindef(\chords, \amp, msg[1]);
+	}, "/pad2AMP"
+);
+
 
 
 
 //5c. Pad3 pattern + OSC messages
 
-z = Synth.new(\sinestuff, [\out, ~reverbBus]);
+z = Synth.new(\sinestuff, [\out, 0]);
 
 	Pbindef(\hauntedSine,
 		\instrument, \sinestuff,
@@ -243,7 +262,7 @@ z = Synth.new(\sinestuff, [\out, ~reverbBus]);
 		\rel, Pwhite(0.05, 0.5, inf),
 		\amp, Pexprand(0.01, 0.2, inf),
 		\pan, Pwhite(-0.8, 0.8, inf),
-		\out, ~reverbBus,
+		\out, 0,
 	);
 
 OSCdef.new(
@@ -280,6 +299,13 @@ OSCdef.new(
 	}, "/pad3DURATION"
 );
 
+OSCdef.new(
+	\pad3AMP, {
+		arg msg, time, addr, port;
+		Pbindef(\hauntedSine, \amp, msg[1]);
+	}, "/pad3AMP"
+);
+
 //5d. Pad 4 pattern + OSC messages
 
 	Pbindef(\rhythm,
@@ -289,7 +315,7 @@ OSCdef.new(
 		\buf, Prand(b[\percs], inf),
 		\rate, 0.5,
 		\amp, Pseq([0.5, Pexprand(0.005, 0.2, 7)], inf),
-		\out, ~reverbBus,
+		\out, 0,
 	);
 
 OSCdef.new(
@@ -324,6 +350,13 @@ OSCdef.new(
 		Pbindef(\rhythm, \rate, msg[1]);
 
 	}, "/pad4RATE"
+);
+
+OSCdef.new(
+	\pad4AMP, {
+		arg msg, time, addr, port;
+		Pbindef(\rhythm, \amp, msg[1]);
+	}, "/pad4AMP"
 );
 )
 
