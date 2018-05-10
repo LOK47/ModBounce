@@ -6,7 +6,7 @@ The GUI for this game has been developed in *Processing*, whilst its sound engin
 
 Please see the Wiki page below for further details;
 
-https://github.com/LOK47/ModBounce.wiki.git
+https://github.com/LOK47/ModBounce/wiki
 
 
 
