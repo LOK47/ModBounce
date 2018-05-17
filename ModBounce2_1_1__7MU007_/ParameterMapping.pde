@@ -107,20 +107,20 @@ void mapParameters(){
   
    //***** Mixer Controller Mapping *****// comment out for manual mixer control
   
-    OscMessage msg24 = new OscMessage("/pad1xyAMP");
-  msg24.add(map(pb.ballPosY(),705, 30, 0, 1));
-  osc.send(msg24, supercollider);
+  //  OscMessage msg24 = new OscMessage("/pad1xyAMP");
+  //msg24.add(map(pb.ballPosY(),705, 30, 0, 1));
+  //osc.send(msg24, supercollider);
   
-  OscMessage msg25 = new OscMessage("/pad2xyAMP");
-  msg25.add(map(pb.ballPosX(),550, 80, 0, 1));
-  osc.send(msg25, supercollider);
+  //OscMessage msg25 = new OscMessage("/pad2xyAMP");
+  //msg25.add(map(pb.ballPosX(),550, 80, 0, 1));
+  //osc.send(msg25, supercollider);
   
-  OscMessage msg26 = new OscMessage("/pad3xyAMP");
-  msg26.add(map(pb.ballPosY(),30, 705, 0, 1));
-  osc.send(msg26, supercollider);
+  //OscMessage msg26 = new OscMessage("/pad3xyAMP");
+  //msg26.add(map(pb.ballPosY(),30, 705, 0, 1));
+  //osc.send(msg26, supercollider);
   
-  OscMessage msg27 = new OscMessage("/pad4xyAMP");
-  msg27.add(map(pb.ballPosX(),80, 550, 0, 1));
-  osc.send(msg27, supercollider);
+  //OscMessage msg27 = new OscMessage("/pad4xyAMP");
+  //msg27.add(map(pb.ballPosX(),80, 550, 0, 1));
+  //osc.send(msg27, supercollider);
 
 }

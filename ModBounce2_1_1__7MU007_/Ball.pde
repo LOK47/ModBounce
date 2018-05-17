@@ -82,23 +82,23 @@ void applyForce(Vec2 force){
   
 }
 
-public float ballPosX(){
+//public float ballPosX(){
 
- float ballX = pos.x;
+// float ballX = pos.x;
  
   
-  return ballX;
+//  return ballX;
 
-}
+//}
 
-public float ballPosY(){
+//public float ballPosY(){
 
- float ballY = pos.y;
+// float ballY = pos.y;
  
   
-  return ballY;
+//  return ballY;
 
-}
+//}
 
 
 
