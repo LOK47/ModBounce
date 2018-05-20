@@ -5,14 +5,14 @@ int xVal, yVal;
 
 void serialEvent(Serial myPort){
 
-  //while(myPort.available() > 0){
-// read a byte from the serial port:
+// read string from serial until new line
     String mpuValue = myPort.readStringUntil('\n');
-   
+    
+// if value is not zero trim value, split and convert to integers
+
     if (mpuValue != null) {
      
       String mpuValue2 = trim(mpuValue);
-      //int value = Integer.parseInt(mpuValue2);
       
       int [] vals = int(split(mpuValue2, ' '));
       
@@ -38,10 +38,5 @@ void controller(){
 
        Vec2 impulse4 = new Vec2(yVal*-1,xVal*-1);
        cb3.applyLinearImpulse(impulse4);
-       
-       
-       
-
-
 
 }
